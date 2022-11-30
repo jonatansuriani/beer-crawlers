@@ -6,5 +6,5 @@ Styles, Beers and Breweries are the data being collected.
 
 ## Spiders
 Spiders created to get data:
-[X] https://www.beeradvocate.com/
-[] ratebeer.com/
+- [X] beeradvocate.com
+- [ ] ratebeer.com
