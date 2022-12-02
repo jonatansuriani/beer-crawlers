@@ -31,16 +31,27 @@ class BeerAdvocateSpider(scrapy.Spider):
         }
 
     def parse_beer(self, response):
+        yield from response.follow_all(response.xpath("//dt[contains(.,'From:')]/following-sibling::dd[1]/a/@href"), callback=self.parse_brewer)
 
         yield {
             'type' : 'beer',
             'original_url': response.url,
             'doc':{
                 'name': response.css('h1::text').get(),
+                'images': response.xpath('//div[@id="main_pic_norm"]/div/img').getall(),
                 'brewery': {
                     'original_url': response.urljoin(response.xpath("//dt[contains(.,'From:')]/following-sibling::dd[1]/a/@href").get()),
                     'name': response.xpath("//dt[contains(.,'From:')]/following-sibling::dd[1]/a/b/text()").get()
                 }
             }
         }
-        
+
+    def parse_brewer(self, response):
+
+        yield {
+            'type' : 'brewery',
+            'original_url': response.url,
+            'doc':{
+                'name': response.css('h1::text').get()
+            }
+        }
