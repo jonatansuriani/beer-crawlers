@@ -1,3 +1,5 @@
+import os
+
 # Scrapy settings for beercrawler project
 #
 # For simplicity, this file contains only settings considered important or
@@ -64,7 +66,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 ITEM_PIPELINES = {
-    'beercrawler.pipelines.DuplicatesPipeline': 300,
+    'beercrawler.pipelines.DuplicatesPipeline': 300
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -91,3 +93,15 @@ ITEM_PIPELINES = {
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
 TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
+
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY= os.environ['AWS_SECRET_ACCESS_KEY']
+
+#FEED_URI='s3://scraped-beers/%(name)s/%(time)s.json'
+
+FEEDS = {
+    's3://scraped-beers/%(name)s/%(time)s.json': {
+        'format': 'json',
+        'encoding': 'utf8'
+    }
+}
